@@ -8,7 +8,7 @@ class App_Header extends React.Component {
 	render(){
 		return (
 			<header>
-				<h1>Fleshmonk Sound Board</h1>
+				<h1>fleshmonk sound board</h1>
 			</header>
 		);
 	}

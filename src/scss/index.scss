@@ -121,7 +121,7 @@ main{
 .flex{
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: space-around;
 }
 
 .wordList{
@@ -164,6 +164,28 @@ main{
 			}
 		}
 	}
+}
+
+footer{
+	bottom: 0;
+	position: relative;
+	
+	img{
+		display: inline;
+		width: 20px;
+		height: 20px;
+		vertical-align: text-bottom;
+		padding-right: 5px;
+	}
+	
+	p{
+		display: inline;
+	}
+	
+	background-color: #000000;
+	padding: 10px 25px;
+	color: #cecece;
+	text-align: center;
 }
 
 @media(max-width: 768px){

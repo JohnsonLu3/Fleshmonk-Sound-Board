@@ -12,6 +12,11 @@ class App extends React.Component {
 			<div className="App">
 				<App_Header/>
 				<App_Main/>
+				
+				<footer>
+					<img src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png" alt="react logo"/>
+					<p>Made in React</p>	
+				</footer>
 			</div>
 		);
 	}

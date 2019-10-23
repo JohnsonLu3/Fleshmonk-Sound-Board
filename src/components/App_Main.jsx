@@ -16,7 +16,7 @@ class App_Main extends React.Component {
 	}
 	
 	  componentDidMount() {
-		fetch("http://204.48.28.27:44313/getWordList/")
+		fetch("https://204.48.28.27:44313/getWordList/")
 		  .then(res => res.json())
 		  .then(
 			(result) => {

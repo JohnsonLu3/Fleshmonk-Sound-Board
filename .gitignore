@@ -65,3 +65,5 @@ bld/
 # Node Api
 nodeAPI/node_modules
 nodeAPI/api/SoundClips
+nodeAPI/cert.pem
+nodeAPI/key.pem

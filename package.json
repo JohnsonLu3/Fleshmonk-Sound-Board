@@ -2,7 +2,7 @@
 	"name": "fleshmonk-soundboard",
 	"version": "0.1.0",
 	"private": true,
-	"proxy": "https://localhost",
+	"homepage": "./",
 	"dependencies": {
 	"node-jsx": "^0.13.3",
 	"node-sass": "^4.12.0",

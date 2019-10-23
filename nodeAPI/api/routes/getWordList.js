@@ -3,9 +3,10 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 
+const directoryPath = "./api/SoundClips";
+
 function getWordList(){
 	let list = [];
-	const directoryPath = "./api/SoundClips";
 	
 	list = fs.readdirSync(directoryPath, function (err, files) {
 		//handling error
@@ -25,12 +26,32 @@ function getWordList(){
 }
 
 function wordExist(query){
-	const directoryPath = "./api/SoundClips";
 	
 	if(getWordList().includes(query.toLowerCase()))
 		return true;
 	
 	return false;
+}
+
+function getWordFile(query){
+	fs.readFile('/path/to/my/audiofile.wav', function (err, data) {
+		  if (err) throw err;
+		  var options = {
+			host: 'remotehost.com',
+			path: '/upload/wav',
+			method: 'POST',
+			headers: { 'Content-Type': 'audio/wav' }
+		  };
+		  var req = http.request(options, function(res) {
+			// Handle a successful response here...
+		  });
+		  req.on('error', function(e) {
+			// Handle an error response here...
+		  });
+		  // Write the audio data in the request body.
+		  req.write(data);
+		  req.end();
+	});
 }
 
 router.get('/', (req, res, next) => {

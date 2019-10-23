@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald:400,700,800,900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700,800,900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+html, #root, .App{
+	height: 100%;
+}
+
 body {
   margin: 0;
+	height: 100%;
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,6 +33,7 @@ a:visited{
 	border-radius: 4px;
 	font-weight: 800;
 	color: white;
+	margin-top: 30px;
 }
 
 
@@ -46,7 +53,9 @@ header{
 
 main{
 	padding: 20px;
+	padding-bottom: 50px;
 	margin: 0 10vw;
+	min-height: 770px;
 	
 	.desc{
 		font-size: 18px;
@@ -167,8 +176,8 @@ main{
 }
 
 footer{
-	bottom: 0;
-	position: relative;
+	width: 100%;
+	box-sizing : border-box;
 	
 	img{
 		display: inline;
@@ -206,18 +215,46 @@ footer{
 		}
 		
 		#fleshmonk_container:after{
-			content: '';
-			position: relative;
 			top: -127px;
 			left: -162px;
-			width: 0;
-			height: 0;
-			border: 40px solid transparent;
 			border-top-color: #ffffff;
-			border-bottom: 0;
-			border-right: 0;
 			margin-left: -24.5px;
 			margin-bottom: -49px;
+		}
+	}
+}
+
+@media(max-width: 425px){
+	main {
+		padding: 20px;
+		margin: 0 10px;
+	
+		#fleshmonk_logo {
+			height: 125px;
+    		width: 125px;
+		}
+		
+		#fleshmonk_container:after{
+			top: -105px;
+			left: -32px;
+			border: 40px solid transparent;
+			border-left: 0;
+		}
+	}
+}
+
+@media(max-width: 375px){
+	main {
+		padding: 20px;
+		margin: 0 10px;
+	
+		#fleshmonk_logo {
+			height: 100px;
+    		width: 100px;
+		}
+		
+		#fleshmonk_container:after{
+			display: none;
 		}
 	}
 }

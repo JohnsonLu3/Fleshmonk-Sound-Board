@@ -51,6 +51,8 @@ main{
 	.desc{
 		font-size: 18px;
 		color: #e7e7e7;
+		text-align: center;
+		margin: auto;
 	}
 	
 	#req_container{
@@ -160,6 +162,40 @@ main{
 			button:hover{
 				cursor: pointer;
 			}
+		}
+	}
+}
+
+@media(max-width: 768px){
+	main {
+		padding: 20px;
+		margin: 0 5vw;
+	}
+}
+
+@media(max-width: 710px){
+	main {
+		padding: 20px;
+		margin: 0 10px;
+	
+		#fleshmonk_logo {
+			height: 150px;
+			width: 150px;
+		}
+		
+		#fleshmonk_container:after{
+			content: '';
+			position: relative;
+			top: -127px;
+			left: -162px;
+			width: 0;
+			height: 0;
+			border: 40px solid transparent;
+			border-top-color: #ffffff;
+			border-bottom: 0;
+			border-right: 0;
+			margin-left: -24.5px;
+			margin-bottom: -49px;
 		}
 	}
 }

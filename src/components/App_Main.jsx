@@ -1,7 +1,7 @@
 import React from 'react';
 import '../scss/App.scss';
 import fleshmonk from '../image/fleshmonk.png';
-
+import List_Words from './List_Words.jsx';
 var state = {}
 
 class App_Main extends React.Component {
@@ -60,12 +60,19 @@ class App_Main extends React.Component {
 					<img id="fleshmonk_logo" src={fleshmonk} />
 				</div>
 				
+				<List_Words wordList = {clips} addWord={this.addWord}></List_Words>
 			</main>
 		);
 	}
 	
 	generate = () =>{
 		return;
+	}
+	
+	addWord = (word) =>{
+		console.log("add " + word);
+		let req_input = document.getElementById("req_input");
+		req_input.value = req_input.value + " " + word;
 	}
 }
 export default App_Main;

@@ -103,3 +103,51 @@ main{
 		width: 200px;
 	}
 }
+
+.flex{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.wordList{
+	font-family: 'Montserrat', sans-serif;
+	margin-top: 200px;
+	
+	h2{
+		color: white;
+		font-size: 32px;
+		text-align: center;
+	}
+	
+	
+	.letterContainer{		
+		
+		padding: 10px 40px;
+		
+		h3{
+			font-size: 24px;
+			color: yellow;
+		}
+		
+		ul{
+			list-style: none;
+			padding: 0;
+		}
+		li{
+			padding: 2px 0px;
+			
+			button{
+				padding: 10px 15px;
+				color: #e7e7e7;
+				font-size: 18px;
+				border: none;
+				background-color: rgba(0, 0, 0, 0.16);
+			}
+			
+			button:hover{
+				cursor: pointer;
+			}
+		}
+	}
+}

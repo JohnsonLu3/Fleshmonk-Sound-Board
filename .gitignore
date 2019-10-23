@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+
 /.pnp
 .pnp.js
 
@@ -60,3 +61,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+
+# Node Api
+nodeAPI/node_modules
+nodeAPI/api/SoundClips

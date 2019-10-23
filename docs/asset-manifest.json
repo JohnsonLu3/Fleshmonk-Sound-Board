@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "./static/css/main.4bbaef9f.chunk.css",
-    "main.js": "./static/js/main.864134a9.chunk.js",
-    "main.js.map": "./static/js/main.864134a9.chunk.js.map",
+    "main.js": "./static/js/main.5ed27a54.chunk.js",
+    "main.js.map": "./static/js/main.5ed27a54.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.b2751bb8.js",
     "runtime-main.js.map": "./static/js/runtime-main.b2751bb8.js.map",
     "static/js/2.010721b5.chunk.js": "./static/js/2.010721b5.chunk.js",
     "static/js/2.010721b5.chunk.js.map": "./static/js/2.010721b5.chunk.js.map",
     "index.html": "./index.html",
-    "precache-manifest.f8202058a65e8e49dc6fd0e84838a77e.js": "./precache-manifest.f8202058a65e8e49dc6fd0e84838a77e.js",
+    "precache-manifest.0f6a18c9bddfac0b7a93e6c9bebc8c0d.js": "./precache-manifest.0f6a18c9bddfac0b7a93e6c9bebc8c0d.js",
     "service-worker.js": "./service-worker.js",
     "static/css/main.4bbaef9f.chunk.css.map": "./static/css/main.4bbaef9f.chunk.css.map",
     "static/media/fleshmonk.png": "./static/media/fleshmonk.bdd75fa5.png"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.b2751bb8.js",
     "static/js/2.010721b5.chunk.js",
     "static/css/main.4bbaef9f.chunk.css",
-    "static/js/main.864134a9.chunk.js"
+    "static/js/main.5ed27a54.chunk.js"
   ]
 }

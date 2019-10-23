@@ -16,13 +16,13 @@ class App_Main extends React.Component {
 	}
 	
 	  componentDidMount() {
-		fetch("https://localhost:44313/SoundBoard")
+		fetch("http://localhost:44313/getWordList/")
 		  .then(res => res.json())
 		  .then(
 			(result) => {
 			  this.setState({
 				isLoaded: true,
-				clips: result
+				clips: result.list
 			  });				
 			},
 			(error) => {

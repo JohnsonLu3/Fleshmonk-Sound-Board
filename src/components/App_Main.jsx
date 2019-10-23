@@ -44,6 +44,13 @@ class App_Main extends React.Component {
 					Fleshmonk Sound Board. Compile sounds from the YouTuber <a href="https://www.youtube.com/user/MrWilkins88">Fleshmonk</a> and generate your own voice clips!
 				</p>
 				
+				{
+					error != null ? 
+						(<div className="ErrorMsg">Error -- Could not connect to server</div>)
+					:
+						(<div></div>)
+				}
+				
 				<p style={{"color": "white"}}>
 
 				</p>

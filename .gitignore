@@ -65,3 +65,4 @@ bld/
 # Node Api
 nodeAPI/node_modules
 nodeAPI/api/SoundClips
+nodeAPI/*.pem

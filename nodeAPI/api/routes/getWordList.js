@@ -21,7 +21,6 @@ function getWordList(){
 		fn = fn.split(".");
 		list[i] = fn[0];
 	}
-	
 	return list;
 }
 
@@ -29,7 +28,6 @@ function wordExist(query){
 	
 	if(getWordList().includes(query.toLowerCase()))
 		return true;
-	
 	return false;
 }
 

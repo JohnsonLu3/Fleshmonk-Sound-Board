@@ -37,9 +37,10 @@ class List_Words extends React.Component  {
 						{
 							list.map((word, index) =>{
 								let start = word[0].toLowerCase();
-								if(start == letter){
+								if(start === letter){
 								   return (<li key={"li_" + word} ><button onClick={addWord.bind(this, word)}>{word}</button></li>)
 								}
+								return null;
 							})
 						}
 					</ul>

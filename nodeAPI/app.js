@@ -2,7 +2,8 @@ const express =require('express');
 const app = express();
 const morgan = require('morgan');
 
-const getWordListRoute = require('./api/routes/getWordList')
+const getWordListRoute = require('./api/routes/getWordList');
+const generateRoute = require('./api/routes/generate');
 
 //CORS headers
 app.use((req, res, next) =>{
@@ -20,6 +21,7 @@ app.use((req, res, next) =>{
 
 app.use(morgan('dev'));
 app.use("/getWordList", getWordListRoute);
+app.use("/generate", generateRoute);
 
 app.use((req, res, next) =>{
 	const error = new Error('Not found');

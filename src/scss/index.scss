@@ -64,6 +64,19 @@ main{
 		margin: auto;
 	}
 	
+	audio{
+		width: 100%;
+		margin-top: 20px;
+		-webkit-transition: height .25s; /* Safari prior 6.1 */
+		transition: height .25s;
+		transition-timing-function: ease-in;
+		
+	}
+	
+	audio.hide{
+		height: 0;
+	}
+	
 	#req_container{
 		position: relative;
 		display: inline-flex;

@@ -1,6 +1,9 @@
 import React from 'react';
+import toWav from 'audiobuffer-to-wav';
+
 import '../scss/App.scss';
 import fleshmonk from '../image/fleshmonk.png';
+import testAudio from '../media/example/speakers.wav';
 import List_Words from './List_Words.jsx';
 var state = {}
 
@@ -12,7 +15,7 @@ class App_Main extends React.Component {
 		  	error: null,
 		  	isLoaded: false,
 		  	clips: [],
-			generated: null
+			generated: "test"
 		};
 	}
 	
@@ -51,10 +54,15 @@ class App_Main extends React.Component {
 					:
 						(<div></div>)
 				}
-				
-				<p style={{"color": "white"}}>
 
-				</p>
+				
+				 <audio
+					 controls
+					 src={"data:audio/wav;base64," + this.state.generated}
+					 id="audioPlayer">
+					 Your browser does not support the
+					 <code>audio</code> element.
+				</audio>
 				
 				<div id="req_container">
 					<input id="req_input" type="text" placeholder="I'm Fleshmonk..."/>
@@ -65,7 +73,7 @@ class App_Main extends React.Component {
 				</button>
 				
 				<div id="fleshmonk_container">
-					<img id="fleshmonk_logo" src={fleshmonk} />
+					<img id="fleshmonk_logo" src={fleshmonk} alt="fleshmonk logo"/>
 				</div>
 				
 				<List_Words wordList = {clips} addWord={this.addWord}></List_Words>
@@ -79,10 +87,11 @@ class App_Main extends React.Component {
 		  .then(res => res.json())
 		  .then(
 			(result) => {
-			  this.setState({
-				isLoaded: true,
-				generated: result.data
-			  });				
+				this.setState({
+					isLoaded: true,
+					generated: result.data
+				});
+				
 			},
 			(error) => {
 			  this.setState({
@@ -90,7 +99,7 @@ class App_Main extends React.Component {
 				error
 			  });
 			}
-		  )
+		  );
 		
 		return;
 	}
@@ -108,6 +117,15 @@ class App_Main extends React.Component {
 		console.log("add " + word);
 		let req_input = document.getElementById("req_input");
 		req_input.value = req_input.value + " " + word;
+		return;
+	}
+	
+	setAudio = () =>{
+		let audioPlayer = document.getElementById("audioPlayer");
+				
+		audioPlayer.src = "data:audio/wav;base64," + this.state.generated;
+		
+		return;
 	}
 }
 export default App_Main;

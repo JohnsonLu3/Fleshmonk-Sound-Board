@@ -9,14 +9,15 @@ class App_Main extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-		  error: null,
-		  isLoaded: false,
-		  clips: []
+		  	error: null,
+		  	isLoaded: false,
+		  	clips: [],
+			generated: null
 		};
 	}
 	
-	  componentDidMount() {
-		fetch("https://204.48.28.27:44313/getWordList/")
+	componentDidMount() {
+		fetch("https://localhost:44313/getWordList")
 		  .then(res => res.json())
 		  .then(
 			(result) => {
@@ -32,7 +33,7 @@ class App_Main extends React.Component {
 			  });
 			}
 		  )
-	  }
+	}
 	
 	render(){
 		
@@ -73,7 +74,34 @@ class App_Main extends React.Component {
 	}
 	
 	generate = () =>{
+		let query = this.getQuery();
+		fetch("https://localhost:44313/generate/" + query)
+		  .then(res => res.json())
+		  .then(
+			(result) => {
+			  this.setState({
+				isLoaded: true,
+				generated: result.data
+			  });				
+			},
+			(error) => {
+			  this.setState({
+				isLoaded: true,
+				error
+			  });
+			}
+		  )
+		
 		return;
+	}
+	
+	getQuery = () =>{
+		let req_input = document.getElementById("req_input");
+		if(req_input != null){
+			let query = req_input.value;
+			query = query.trim();
+			return query;
+		}
 	}
 	
 	addWord = (word) =>{

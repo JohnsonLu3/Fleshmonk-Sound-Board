@@ -100,6 +100,23 @@ main{
 		font-style: italic;
 	}
 	
+	#clear_input{
+		border: none;
+		font-weight: 800;
+		background-color: rgba(255, 255, 255, 1);
+		position: absolute;
+		color: black;
+		font-size: 18px;
+		z-index: 2;
+		right: 10px;
+		bottom: 0;
+		height: 100%;
+	}
+	
+	#clear_input:hover{
+		cursor: pointer
+	}
+	
 	#fleshmonk_container{
 		float: right;
 	}

@@ -2,11 +2,14 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const fs = require('fs');
+const ffmpeg = require('fluent-ffmpeg');
+
 const WordList = require('../utils/WordList.js');
 
 const directoryPath = "./api/SoundClips/";
+const tempPath = "./api/tmp/";
 
- function getWordList(){
+function getWordList(){
     let list = [];
     
     list = fs.readdirSync(directoryPath, function (err, files) {
@@ -33,16 +36,47 @@ function wordExist(word){
 
 function generate(query){
     words = query.split(" ");
-    return getWordFile(words[0]);
+    var date = new Date();
+    var timestamp = date.getTime();
+    
+    let inputFiles = [];
+    for(word in words){
+        wordPath = getWordFile(word);
+        if(wordPath != null){
+            inputFiles.push(wordPath);
+        }
+    }
+    
+    return fs.readFileSync(getWordFile(words[0])).toString('base64');
+
+    // var tmpFilePath = tempPath + "gen_" + timestamp + ".wav"
+    // var writeStream = fs.createWriteStream(tmpFilePath); 
+    // recursiveStreamWriter(tmpFilePath, inputFiles)
+
+    // return fs.readFileSync(tmpFilePath).toString('base64');
 }
 
+ function recursiveStreamWriter(writeStream, inputFiles) {
+    if(inputFiles.length == 0) {
+        console.log('Done!')
+        return;
+    }
+
+    let nextFile = inputFiles.shift(); 
+    var readStream = fs.createReadStream(nextFile);
+
+    readStream.pipe(writeStream, {end: false});
+    readStream.on('end', () => {
+        console.log('Finished streaming an audio file');
+        recursiveStreamWriter(inputFiles);
+    });
+}
 
 function getWordFile(word){
     let path = directoryPath + word + ".wav"
 
     if(wordExist(word)){
-        let file = fs.readFileSync(path);
-        return file.toString('base64'); 
+        return path;
     }else{
         return null;
     }

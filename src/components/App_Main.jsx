@@ -54,18 +54,18 @@ class App_Main extends React.Component {
 					:
 						(<div></div>)
 				}
-
 				
 				 <audio
 					 controls
 					 src={"data:audio/wav;base64," + this.state.generated}
-					 id="audioPlayer">
+					 id="audioPlayer" className="hide">
 					 Your browser does not support the
 					 <code>audio</code> element.
 				</audio>
 				
 				<div id="req_container">
-					<input id="req_input" type="text" placeholder="I'm Fleshmonk..."/>
+					<input id="req_input" type="text" placeholder="Stay Fleshly..."/>
+					<button id="clear_input" onClick={this.clearInput}>X</button>
 				</div>
 				
 				<button id="req_generate" onClick={this.generate}>
@@ -91,7 +91,8 @@ class App_Main extends React.Component {
 					isLoaded: true,
 					generated: result.data
 				});
-				
+				let audioPlayer = document.getElementById("audioPlayer");
+				audioPlayer.classList.remove("hide");
 			},
 			(error) => {
 			  this.setState({
@@ -120,11 +121,11 @@ class App_Main extends React.Component {
 		return;
 	}
 	
-	setAudio = () =>{
+	clearInput = () =>{
+		let req_input = document.getElementById("req_input");
+		req_input.value = "";
 		let audioPlayer = document.getElementById("audioPlayer");
-				
-		audioPlayer.src = "data:audio/wav;base64," + this.state.generated;
-		
+		audioPlayer.classList.add("hide");
 		return;
 	}
 }

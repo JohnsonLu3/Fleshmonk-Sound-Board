@@ -10,7 +10,8 @@
   "author": "Johnson Lu",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "fluent-ffmpeg": "^2.1.2"
   },
   "devDependencies": {
     "morgan": "^1.9.1",

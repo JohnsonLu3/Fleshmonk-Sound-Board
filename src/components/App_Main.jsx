@@ -1,26 +1,29 @@
 import React from 'react';
+import $ from 'jquery';
 import toWav from 'audiobuffer-to-wav';
-
 import '../scss/App.scss';
 import fleshmonk from '../image/fleshmonk.png';
 import testAudio from '../media/example/speakers.wav';
 import List_Words from './List_Words.jsx';
+import Word_Audio from './Word_Audio.jsx'
+
 var state = {}
 
 class App_Main extends React.Component {
-  
+  	
 	constructor(props) {
 		super(props);
+		this.API_ADDRESS = "http://localhost:8080/";
 		this.state = {
 		  	error: null,
 		  	isLoaded: false,
 		  	clips: [],
-			generated: "test"
+			generated: []
 		};
 	}
 	
 	componentDidMount() {
-		fetch("https://localhost:44313/getWordList")
+		fetch( this.API_ADDRESS + "getWordList")
 		  .then(res => res.json())
 		  .then(
 			(result) => {
@@ -45,7 +48,9 @@ class App_Main extends React.Component {
 		return (
 			<main className="">
 				<p className="desc">
-					Fleshmonk Sound Board. Compile sounds from the YouTuber <a href="https://www.youtube.com/user/MrWilkins88">Fleshmonk</a> and generate your own voice clips! In the future maybe support for auto generated voice.
+					Fleshmonk Sound Board. Compile sounds from the YouTuber <a href="https://www.youtube.com/user/MrWilkins88">Fleshmonk</a> and generate your own voice clips! In the future maybe support for auto generated voice. 
+					<br/>
+					<strong> Currently you can only use the words that are available below.</strong>
 				</p>
 				
 				{
@@ -55,13 +60,22 @@ class App_Main extends React.Component {
 						(<div></div>)
 				}
 				
-				 <audio
-					 controls
-					 src={"data:audio/wav;base64," + this.state.generated}
-					 id="audioPlayer" className="hide">
-					 Your browser does not support the
-					 <code>audio</code> element.
-				</audio>
+				<div id="audioContainer" className="hide">
+					{
+						this.state.generated != null ? ( <button onClick={this.playAudio.bind(this, Object.keys(this.state.generated))}>Play <i className="fas fa-play" aria-hidden="true"></i></button>) : (null)
+					}
+					<span>
+						{
+							this.state.generated != null ?
+								( Object.keys(this.state.generated).map((key, index) => ( 
+									<Word_Audio key={index} word={key} audioData={this.state.generated[key]}/>
+								)))
+							:
+							(null)
+
+						}
+					</span>
+				</div>
 				
 				<div id="req_container">
 					<input id="req_input" type="text" placeholder="Stay Fleshly..."/>
@@ -83,7 +97,7 @@ class App_Main extends React.Component {
 	
 	generate = () =>{
 		let query = this.getQuery();
-		fetch("https://localhost:44313/generate/" + query)
+		fetch(this.API_ADDRESS + "generate/" + query)
 		  .then(res => res.json())
 		  .then(
 			(result) => {
@@ -91,8 +105,10 @@ class App_Main extends React.Component {
 					isLoaded: true,
 					generated: result.data
 				});
-				let audioPlayer = document.getElementById("audioPlayer");
-				audioPlayer.classList.remove("hide");
+				if(this.state.generated != null){
+					let audioContainer = document.getElementById("audioContainer");
+					audioContainer.classList.remove('hide');
+				}
 			},
 			(error) => {
 			  this.setState({
@@ -124,9 +140,32 @@ class App_Main extends React.Component {
 	clearInput = () =>{
 		let req_input = document.getElementById("req_input");
 		req_input.value = "";
-		let audioPlayer = document.getElementById("audioPlayer");
-		audioPlayer.classList.add("hide");
+		let audioContainer = document.getElementById("audioContainer");
+		audioContainer.classList.add('hide');
 		return;
 	}
+	
+	playAudio = (ids) =>{
+		let players = []
+		
+		for(let i = 0; i < ids.length; i++){
+			players.push(document.getElementById("audio_" + ids[i]));
+		}
+		
+		
+		for(let i = 0; i < players.length; i++){
+			if(players[i+1] < players.length){
+			   players[i].onended = this.playNext(players[i+1])
+			}
+		}
+		players[0].play();
+	}
+			
+	playNext = (nextPlayer) =>{
+		console.log("ended" + nextPlayer)
+		nextPlayer.play();
+	}
+		
+	
 }
 export default App_Main;

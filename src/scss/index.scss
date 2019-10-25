@@ -6,6 +6,10 @@ html, #root, .App{
 	height: 100%;
 }
 
+button:hover{
+	cursor: pointer;
+}
+
 body {
   margin: 0;
 	height: 100%;
@@ -65,16 +69,58 @@ main{
 	}
 	
 	audio{
-		width: 100%;
-		margin-top: 20px;
-		-webkit-transition: height .25s; /* Safari prior 6.1 */
-		transition: height .25s;
-		transition-timing-function: ease-in;
 		
 	}
 	
-	audio.hide{
+	#audioContainer{
+		margin-top: 15px;
+		-webkit-transition: height .25s; /* Safari prior 6.1 */
+		transition: height .25s;
+		transition-timing-function: ease-in;
+		overflow: hidden;
+		
+		button{
+			background-color: rgba(0, 0, 0, 0.16);
+			background-color: #f8de31;
+			border-color: #f8de31;
+			border-style: solid;
+			border-width: 3px;
+			border-radius: 2px;
+			color: black;
+			font-family: 'Montserrat', sans-serif;
+			font-size: 18px;
+			font-weight: 800;
+			text-align: center;
+			padding: 5px 15px;
+		}
+		
+		div{
+			display: inline-block;
+			margin: 5px;
+			
+			p{
+				background-color: rgba(0, 0, 0, 0.16);
+				border-color: #f8de31;
+				border-width: 3px;
+				border-style: solid;
+				border-radius: 2px;
+				color: #f8de31;
+				font-family: 'Montserrat', sans-serif;
+				font-size: 18px;
+				font-weight: 800;
+				text-align: center;
+				padding: 5px 15px;
+			}
+			
+			audio{
+				display: none;
+			}
+		}
+	}
+	
+	#audioContainer.hide{
 		height: 0;
+		margin-top: 0px;
 	}
 	
 	#req_container{

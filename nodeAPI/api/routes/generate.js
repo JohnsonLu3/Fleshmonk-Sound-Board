@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const fs = require('fs');
-const ffmpeg = require('fluent-ffmpeg');
+const sox = require('sox');
+const SoxCommand = require('sox-audio');
+const command = SoxCommand();
 
 const WordList = require('../utils/WordList.js');
-
 const directoryPath = "./api/SoundClips/";
 const tempPath = "./api/tmp/";
 
@@ -36,24 +37,15 @@ function wordExist(word){
 
 function generate(query){
     words = query.split(" ");
-    var date = new Date();
-    var timestamp = date.getTime();
     
-    let inputFiles = [];
-    for(word in words){
-        wordPath = getWordFile(word);
+    let inputFiles = {};
+    for(let i = 0; i < words.length; i++){
+        wordPath = getWordFile(words[i]);
         if(wordPath != null){
-            inputFiles.push(wordPath);
+            inputFiles[words[i]] =  fs.readFileSync(wordPath).toString('base64');
         }
     }
-    
-    return fs.readFileSync(getWordFile(words[0])).toString('base64');
-
-    // var tmpFilePath = tempPath + "gen_" + timestamp + ".wav"
-    // var writeStream = fs.createWriteStream(tmpFilePath); 
-    // recursiveStreamWriter(tmpFilePath, inputFiles)
-
-    // return fs.readFileSync(tmpFilePath).toString('base64');
+    return inputFiles;
 }
 
  function recursiveStreamWriter(writeStream, inputFiles) {

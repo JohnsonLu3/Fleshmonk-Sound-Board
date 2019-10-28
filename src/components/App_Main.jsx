@@ -23,6 +23,17 @@ class App_Main extends React.Component {
 	}
 	
 	componentDidMount() {
+		
+		let search = window.location.search;
+		let params = new URLSearchParams(search);
+		let query = params.get('q');
+		console.log(query);
+		if(query != null && query != " " && query != ""){
+		   	let req_input = document.getElementById("req_input");
+			req_input.value = query;
+			this.generate();
+		}
+		
 		fetch( this.API_ADDRESS + "getWordList")
 		  .then(res => res.json())
 		  .then(
@@ -62,8 +73,12 @@ class App_Main extends React.Component {
 				
 				<div id="audioContainer" className="hide">
 					{
-						this.state.generated != null ? ( <button onClick={this.playAudio.bind(this, this.state.generated)}>Play <i className="fas fa-play" aria-hidden="true"></i></button>) : (null)
+						this.state.generated != null ? (
+							<button onClick={this.playAudio.bind(this, this.state.generated)}>Play <i className="fas fa-play" aria-hidden="true"></i><span className="scr_rd"></span></button>
+						) : (null)
 					}
+					
+
 					<span>
 						{
 							this.state.generated != null ?
@@ -75,6 +90,15 @@ class App_Main extends React.Component {
 
 						}
 					</span>
+					{
+						this.state.generated != null ? (
+							<span id="shareLink">
+								<button className="share_btn" onClick={this.copyShare}><i aria-hidden="true" className="fas fa-link"></i></button>
+								<div id="shared_Notice" className="hide">Share Link Copied!</div>
+								<input id="shared_Input" className="scr_rd" type="text" ></input>
+							</span>
+						) : (null)
+					}
 				</div>
 				
 				<div id="req_container">
@@ -169,16 +193,27 @@ class App_Main extends React.Component {
 		players[0].play();
 	}
 			
-//	playNext = (nextPlayer) =>{
-//		console.log("ended" + nextPlayer)
-//		setTimeout(function(){ nextPlayer.play(); }, 100);
-//	}
-//	
 	getNext = (id) =>{
 		let prefix = "setTimeout(function(){ ";
 		let getEleStr = "document.getElementById(\""
 		let postfix = "\").play(); }, 50);"
 		return prefix + getEleStr + id + postfix;
+	}
+	
+	copyShare = () =>{
+		let req_input = document.getElementById("req_input");
+		let shared_input = document.getElementById("shared_Input");
+		let shared_notice = document.getElementById("shared_Notice");
+		let query = req_input.value;
+		
+		query =  window.location.href.split('?')[0] + "?q=" + query;
+		shared_input.value = query	;		
+		shared_input.select();
+		shared_input.setSelectionRange(0, 99999); /*For mobile devices*/
+		document.execCommand("copy")
+		shared_notice.classList.remove("hide");
+		shared_notice.classList.add("ani");
+		setTimeout(function(){ shared_notice.classList.add("hide");; }, 3000);		
 	}
 }
 export default App_Main;

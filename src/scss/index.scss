@@ -20,6 +20,15 @@ body {
 	
 }
 
+.scr_rd{
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}
+
 a{
 	color: #f8de31;
 }
@@ -97,6 +106,38 @@ main{
 			text-align: center;
 			padding: 5px 15px;
 		}
+		
+		#shareLink{
+			.share_btn{
+				color: #f8de31;
+				background-color: rgba(0, 0, 0, 0);
+				border: none;
+			}
+			
+			div{
+				background-color: rgba(50, 183, 50, 0.65);
+				padding: 5px 10px;
+				border-radius: 4px;
+				font-weight: 400;
+				color: #d3d3d3;
+				opacity: 0;
+			}
+
+
+			@keyframes fade {
+			  	0% { opacity: 0 }
+			  	50%,60% { opacity: 1 }
+			}
+			
+			div.ani{
+				animation: fade 3s linear;
+			}
+			
+			.hide{
+				display: none;
+			}
+		}
+		
 		
 		div{
 			display: inline-block;

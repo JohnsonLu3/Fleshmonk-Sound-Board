@@ -14,7 +14,7 @@ class Word_Audio extends React.Component  {
 				<p>{this.props.word}</p>
 				<audio
 					controls
-					id={"audio_" + this.props.word} 
+					id={"audio_" + this.props.word + "_" + this.props.index} 
 					src={"data:audio/wav;base64," + this.props.audioData}
 					className="audioPlayer" >
 					 Your browser does not support the

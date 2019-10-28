@@ -38,11 +38,13 @@ function wordExist(word){
 function generate(query){
     words = query.split(" ");
     
-    let inputFiles = {};
+    let inputFiles = [];
     for(let i = 0; i < words.length; i++){
         wordPath = getWordFile(words[i]);
-        if(wordPath != null){
-            inputFiles[words[i]] =  fs.readFileSync(wordPath).toString('base64');
+        if(wordPath != null){  
+            let pair = {}
+            pair[words[i]] =  fs.readFileSync(wordPath).toString('base64');
+            inputFiles.push(pair);
         }
     }
     return inputFiles;

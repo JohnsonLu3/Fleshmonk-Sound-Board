@@ -15,7 +15,7 @@ class App extends React.Component {
 				
 				<footer>
 					<img src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png" alt="react logo"/>
-					<p>Made in React</p>	
+					<p>Made by Johnson Lu with React.js</p>	
 				</footer>
 			</div>
 		);

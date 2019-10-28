@@ -13,7 +13,7 @@ class App_Main extends React.Component {
   	
 	constructor(props) {
 		super(props);
-		this.API_ADDRESS = "http://localhost:8080/";
+		this.API_ADDRESS = "http://ec2-52-23-226-177.compute-1.amazonaws.com:8080/";
 		this.state = {
 		  	error: null,
 		  	isLoaded: false,
@@ -62,13 +62,13 @@ class App_Main extends React.Component {
 				
 				<div id="audioContainer" className="hide">
 					{
-						this.state.generated != null ? ( <button onClick={this.playAudio.bind(this, Object.keys(this.state.generated))}>Play <i className="fas fa-play" aria-hidden="true"></i></button>) : (null)
+						this.state.generated != null ? ( <button onClick={this.playAudio.bind(this, this.state.generated)}>Play <i className="fas fa-play" aria-hidden="true"></i></button>) : (null)
 					}
 					<span>
 						{
 							this.state.generated != null ?
-								( Object.keys(this.state.generated).map((key, index) => ( 
-									<Word_Audio key={index} word={key} audioData={this.state.generated[key]}/>
+								( this.state.generated.map((pair, index) => ( 
+									<Word_Audio key={index} index={index} word={Object.keys(pair)[0]} audioData={pair[Object.keys(pair)[0]]}/>
 								)))
 							:
 							(null)
@@ -78,7 +78,7 @@ class App_Main extends React.Component {
 				</div>
 				
 				<div id="req_container">
-					<input id="req_input" type="text" placeholder="Stay Fleshly..."/>
+					<input id="req_input" type="text" placeholder="Stay Fleshy..."/>
 					<button id="clear_input" onClick={this.clearInput}>X</button>
 				</div>
 				
@@ -142,30 +142,43 @@ class App_Main extends React.Component {
 		req_input.value = "";
 		let audioContainer = document.getElementById("audioContainer");
 		audioContainer.classList.add('hide');
+		
+		let sounds = document.getElementsByClassName('audioPlayer');
+  		for(let i=0; i < sounds.length; i++){
+			sounds[i].pause();	
+		} 
+		
 		return;
 	}
 	
-	playAudio = (ids) =>{
+	playAudio = (pairs) =>{
 		let players = []
-		
-		for(let i = 0; i < ids.length; i++){
-			players.push(document.getElementById("audio_" + ids[i]));
+		let ids = []
+		for(let i = 0; i < pairs.length; i++){
+			//audio_" + this.props.word + "_" + this.props.index
+			players.push(document.getElementById("audio_" + Object.keys(pairs[i])[0]  + "_" + i));
+			ids.push("audio_" + Object.keys(pairs[i])[0]  + "_" + i);
 		}
 		
 		
-		for(let i = 0; i < players.length; i++){
-			if(players[i+1] < players.length){
-			   players[i].onended = this.playNext(players[i+1])
+		for(let i = 0; i < ids.length; i++){
+			if(i+1 < ids.length){
+				players[i].setAttribute("onEnded", this.getNext(ids[i+1]));
 			}
 		}
 		players[0].play();
 	}
 			
-	playNext = (nextPlayer) =>{
-		console.log("ended" + nextPlayer)
-		nextPlayer.play();
+//	playNext = (nextPlayer) =>{
+//		console.log("ended" + nextPlayer)
+//		setTimeout(function(){ nextPlayer.play(); }, 100);
+//	}
+//	
+	getNext = (id) =>{
+		let prefix = "setTimeout(function(){ ";
+		let getEleStr = "document.getElementById(\""
+		let postfix = "\").play(); }, 50);"
+		return prefix + getEleStr + id + postfix;
 	}
-		
-	
 }
 export default App_Main;

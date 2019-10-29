@@ -197,7 +197,7 @@ class App_Main extends React.Component {
 	getNext = (id) =>{
 		let prefix = "setTimeout(function(){ ";
 		let getEleStr = "document.getElementById(\""
-		let postfix = "\").play(); }, 50);"
+		let postfix = "\").play(); }, 25);"
 		return prefix + getEleStr + id + postfix;
 	}
 	

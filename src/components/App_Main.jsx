@@ -30,6 +30,7 @@ class App_Main extends React.Component {
 		console.log(query);
 		if(query != null && query != " " && query != ""){
 		   	let req_input = document.getElementById("req_input");
+			query = query.replace(/,/g,' ');
 			req_input.value = query;
 			this.generate();
 		}
@@ -205,6 +206,7 @@ class App_Main extends React.Component {
 		let shared_input = document.getElementById("shared_Input");
 		let shared_notice = document.getElementById("shared_Notice");
 		let query = req_input.value;
+		query = query.replace(/ /g,',');
 		
 		query =  window.location.href.split('?')[0] + "?q=" + query;
 		shared_input.value = query	;		

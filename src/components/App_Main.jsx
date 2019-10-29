@@ -13,7 +13,7 @@ class App_Main extends React.Component {
   	
 	constructor(props) {
 		super(props);
-		this.API_ADDRESS = "http://ec2-52-23-226-177.compute-1.amazonaws.com:8080/";
+		this.API_ADDRESS = "https://fleshmonk.johnsonlu.dev/";
 		this.state = {
 		  	error: null,
 		  	isLoaded: false,

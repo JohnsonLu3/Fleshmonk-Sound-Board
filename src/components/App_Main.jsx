@@ -149,7 +149,7 @@ class App_Main extends React.Component {
 	getQuery = () =>{
 		let req_input = document.getElementById("req_input");
 		if(req_input != null){
-			let query = req_input.value;
+			let query = req_input.value.toLowerCase();
 			query = query.trim();
 			return query;
 		}

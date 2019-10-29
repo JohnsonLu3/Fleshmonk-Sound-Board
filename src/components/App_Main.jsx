@@ -59,9 +59,9 @@ class App_Main extends React.Component {
 		return (
 			<main className="">
 				<p className="desc">
-					Fleshmonk Sound Board. Compile sounds from the YouTuber <a href="https://www.youtube.com/user/MrWilkins88">Fleshmonk</a> and generate your own voice clips! In the future maybe support for auto generated voice. 
+					Fleshmonk Sound Board. Compile sounds from the YouTuber <a href="https://www.youtube.com/user/MrWilkins88">Fleshmonk</a> and generate your own voice clips! In the future, maybe support for auto generated voice with machine learning. 
 					<br/>
-					<strong> Currently you can only use the words that are available below.</strong>
+					<strong> Currently you can only use the words that are available below. Clicking on the words is strongly recommended</strong>
 				</p>
 				
 				{

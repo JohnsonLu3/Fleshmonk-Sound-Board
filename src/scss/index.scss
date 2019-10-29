@@ -361,6 +361,13 @@ footer{
 			border: 40px solid transparent;
 			border-left: 0;
 		}
+		.flex {
+    		justify-content: space-evenly;
+		}
+		.wordList .letterContainer {
+			padding: 10px 4px;
+		}
+		
 	}
 }
 

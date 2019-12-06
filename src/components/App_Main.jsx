@@ -1,93 +1,107 @@
 import React from 'react';
-import $ from 'jquery';
-import toWav from 'audiobuffer-to-wav';
 import '../scss/App.scss';
 import fleshmonk from '../image/fleshmonk.png';
-import testAudio from '../media/example/speakers.wav';
 import List_Words from './List_Words.jsx';
 import Word_Audio from './Word_Audio.jsx'
-
+import WordList from '../data/WorldList.jsx'
 var state = {}
 
 class App_Main extends React.Component {
-  	
+
 	constructor(props) {
 		super(props);
 		this.API_ADDRESS = "https://fleshmonk.johnsonlu.dev/";
 		this.state = {
-		  	error: null,
-		  	isLoaded: false,
-		  	clips: [],
+			error: null,
+			isLoaded: false,
+			clips: [],
 			generated: []
 		};
 	}
-	
+
 	componentDidMount() {
-		
+
 		let search = window.location.search;
 		let params = new URLSearchParams(search);
 		let query = params.get('q');
 		console.log(query);
-		if(query != null && query != " " && query != ""){
-		   	let req_input = document.getElementById("req_input");
-			query = query.replace(/,/g,' ');
+		if (query != null && query != " " && query != "") {
+			let req_input = document.getElementById("req_input");
+			query = query.replace(/,/g, ' ');
 			req_input.value = query;
-			this.generate();
+			this.generateFromOrigin();
 		}
-		
-		fetch( this.API_ADDRESS + "getWordList")
-		  .then(res => res.json())
-		  .then(
-			(result) => {
-			  this.setState({
-				isLoaded: true,
-				clips: result.list
-			  });				
-			},
-			(error) => {
-			  this.setState({
-				isLoaded: true,
-				error
-			  });
-			}
-		  )
+
+		this.getWordListFromOrigin()
 	}
-	
-	render(){
-		
+
+	getWordListFromOrigin() {
+		let wordList = new WordList();
+		this.setState({
+			isLoaded: true,
+			clips: wordList.data
+		});
+	}
+
+	getWordListFromAPI() {
+		fetch(this.API_ADDRESS + "getWordList")
+			.then(res => res.json())
+			.then(
+				(result) => {
+					this.setState({
+						isLoaded: true,
+						clips: result.list
+					});
+				},
+				(error) => {
+					this.setState({
+						isLoaded: true,
+						error
+					});
+				}
+			)
+	}
+
+	printWorldList() {
+		const util = require('util')
+		console.log(util.inspect(this.state.clips, { maxArrayLength: null }))
+	}
+
+	render() {
+
 		const { error, isLoaded, clips } = this.state;
-		
+
 		return (
 			<main className="">
 				<p className="desc">
-					Fleshmonk Sound Board. Compile sounds from the YouTuber <a href="https://www.youtube.com/user/MrWilkins88">Fleshmonk</a> and generate your own voice clips! In the future, maybe support for auto generated voice with machine learning. 
-					<br/>
+					Fleshmonk Sound Board. Compile sounds from the YouTuber <a href="https://www.youtube.com/user/MrWilkins88">Fleshmonk</a> and generate your own voice clips! In the future, maybe support for auto generated voice with machine learning.
+					<br />
 					<strong> Currently you can only use the words that are available below. Clicking on the words is strongly recommended</strong>
 				</p>
-				
+
 				{
-					error != null ? 
+					error != null ?
 						(<div className="ErrorMsg">Error -- Could not connect to server</div>)
-					:
+						:
 						(<div></div>)
 				}
-				
+
 				<div id="audioContainer" className="hide">
 					{
 						this.state.generated != null ? (
-							<button onClick={this.playAudio.bind(this, this.state.generated)}>Play <i className="fas fa-play" aria-hidden="true"></i><span className="scr_rd"></span></button>
+							<button onClick={this.playAudio.bind(this, this.state.generateFromOrigin)}>Play <i className="fas fa-play" aria-hidden="true"></i><span className="scr_rd"></span></button>
 						) : (null)
 					}
-					
+
 
 					<span>
 						{
 							this.state.generated != null ?
-								( this.state.generated.map((pair, index) => ( 
-									<Word_Audio key={index} index={index} word={Object.keys(pair)[0]} audioData={pair[Object.keys(pair)[0]]}/>
+								(this.state.generated.map((pair, index) => (
+									<Word_Audio key={index} index={index} word={Object.keys(pair)[0]} audioData={pair[Object.keys(pair)[0]]} />
 								)))
-							:
-							(null)
+								:
+								(null)
 
 						}
 					</span>
@@ -101,121 +115,148 @@ class App_Main extends React.Component {
 						) : (null)
 					}
 				</div>
-				
+
 				<div id="req_container">
-					<input id="req_input" type="text" placeholder="Stay Fleshy..."/>
+					<input id="req_input" type="text" placeholder="Stay Fleshy..." />
 					<button id="clear_input" onClick={this.clearInput}>X</button>
 				</div>
-				
-				<button id="req_generate" onClick={this.generate}>
+
+				<button id="req_generate" onClick={this.generateFromOrigin}>
 					generate
 				</button>
-				
+
 				<div id="fleshmonk_container">
-					<img id="fleshmonk_logo" src={fleshmonk} alt="fleshmonk logo"/>
+					<img id="fleshmonk_logo" src={fleshmonk} alt="fleshmonk logo" />
 				</div>
-				
-				<List_Words wordList = {clips} addWord={this.addWord}></List_Words>
+
+				<List_Words wordList={clips} addWord={this.addWord}></List_Words>
 			</main>
 		);
 	}
-	
-	generate = () =>{
-		let query = this.getQuery();
-		fetch(this.API_ADDRESS + "generate/" + query)
-		  .then(res => res.json())
-		  .then(
-			(result) => {
-				this.setState({
-					isLoaded: true,
-					generated: result.data
-				});
-				if(this.state.generated != null){
-					let audioContainer = document.getElementById("audioContainer");
-					audioContainer.classList.remove('hide');
-				}
-			},
-			(error) => {
-			  this.setState({
+
+	generateFromOrigin = () => {
+		let query = this.getQuery().split(" ");
+		let audioPath = "../sounds/";
+		let extension = ".wav";
+		let audioPaths = [];
+
+		for(let i = 0; i < query.length; i++){
+			let queryPath =  audioPath + query[i] + extension;
+			let word = query[i];
+			let pair = {};
+			pair[word] = queryPath;
+			audioPaths.push(pair);
+		}
+
+		if(audioPaths != []){
+			this.setState({
 				isLoaded: true,
-				error
-			  });
-			}
-		  );
-		
+				generated: audioPaths
+			});
+
+			let audioContainer = document.getElementById("audioContainer");
+			audioContainer.classList.remove('hide');
+		}
+
 		return;
 	}
-	
-	getQuery = () =>{
+
+	generateFromAPI = () => {
+		let query = this.getQuery();
+		fetch(this.API_ADDRESS + "generate/" + query)
+			.then(res => res.json())
+			.then(
+				(result) => {
+					this.setState({
+						isLoaded: true,
+						generated: result.data
+					});
+					if (this.state.generated != null) {
+						let audioContainer = document.getElementById("audioContainer");
+						audioContainer.classList.remove('hide');
+					}
+				},
+				(error) => {
+					this.setState({
+						isLoaded: true,
+						error
+					});
+				}
+			);
+
+		return;
+	}
+
+	getQuery = () => {
 		let req_input = document.getElementById("req_input");
-		if(req_input != null){
+		if (req_input != null) {
 			let query = req_input.value.toLowerCase();
 			query = query.trim();
 			return query;
 		}
 	}
-	
-	addWord = (word) =>{
+
+	addWord = (word) => {
 		console.log("add " + word);
 		let req_input = document.getElementById("req_input");
 		req_input.value = req_input.value + " " + word;
 		return;
 	}
-	
-	clearInput = () =>{
+
+	clearInput = () => {
 		let req_input = document.getElementById("req_input");
 		req_input.value = "";
 		let audioContainer = document.getElementById("audioContainer");
 		audioContainer.classList.add('hide');
-		
+
 		let sounds = document.getElementsByClassName('audioPlayer');
-  		for(let i=0; i < sounds.length; i++){
-			sounds[i].pause();	
-		} 
-		
+		for (let i = 0; i < sounds.length; i++) {
+			sounds[i].pause();
+		}
+
 		return;
 	}
-	
-	playAudio = (pairs) =>{
+
+	playAudio = (pairs) => {
 		let players = []
 		let ids = []
-		for(let i = 0; i < pairs.length; i++){
+		for (let i = 0; i < pairs.length; i++) {
 			//audio_" + this.props.word + "_" + this.props.index
-			players.push(document.getElementById("audio_" + Object.keys(pairs[i])[0]  + "_" + i));
-			ids.push("audio_" + Object.keys(pairs[i])[0]  + "_" + i);
+			players.push(document.getElementById("audio_" + Object.keys(pairs[i])[0] + "_" + i));
+			ids.push("audio_" + Object.keys(pairs[i])[0] + "_" + i);
 		}
-		
-		
-		for(let i = 0; i < ids.length; i++){
-			if(i+1 < ids.length){
-				players[i].setAttribute("onEnded", this.getNext(ids[i+1]));
+
+
+		for (let i = 0; i < ids.length; i++) {
+			if (i + 1 < ids.length) {
+				players[i].setAttribute("onEnded", this.getNext(ids[i + 1]));
 			}
 		}
 		players[0].play();
 	}
-			
-	getNext = (id) =>{
+
+	getNext = (id) => {
 		let prefix = "setTimeout(function(){ ";
 		let getEleStr = "document.getElementById(\""
 		let postfix = "\").play(); }, 25);"
 		return prefix + getEleStr + id + postfix;
 	}
-	
-	copyShare = () =>{
+
+	copyShare = () => {
 		let req_input = document.getElementById("req_input");
 		let shared_input = document.getElementById("shared_Input");
 		let shared_notice = document.getElementById("shared_Notice");
 		let query = req_input.value;
-		query = query.replace(/ /g,',');
-		
-		query =  window.location.href.split('?')[0] + "?q=" + query;
-		shared_input.value = query	;		
+		query = query.replace(/ /g, ',');
+
+		query = window.location.href.split('?')[0] + "?q=" + query;
+		shared_input.value = query;
 		shared_input.select();
 		shared_input.setSelectionRange(0, 99999); /*For mobile devices*/
 		document.execCommand("copy")
 		shared_notice.classList.remove("hide");
 		shared_notice.classList.add("ani");
-		setTimeout(function(){ shared_notice.classList.add("hide");; }, 3000);		
+		setTimeout(function () { shared_notice.classList.add("hide");; }, 3000);
 	}
 }
 export default App_Main;

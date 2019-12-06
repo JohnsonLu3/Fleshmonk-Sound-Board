@@ -4,3 +4,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Compile sounds from the YouTuber [Fleshmonk](https://www.youtube.com/user/MrWilkins88) and generate your own voice clips!
 [Try it out!](https://johnsonlu3.github.io/FleshmonkSoundBoard/)
+
+![Example of Using Fleshmonk Sound Board](exampleImage.png)

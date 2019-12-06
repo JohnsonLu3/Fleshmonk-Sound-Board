@@ -3,7 +3,7 @@ import '../scss/App.scss';
 import fleshmonk from '../image/fleshmonk.png';
 import List_Words from './List_Words.jsx';
 import Word_Audio from './Word_Audio.jsx'
-import WordList from '../data/WorldList.jsx'
+import WordList from '../data/WorldList.jsx';
 var state = {}
 
 class App_Main extends React.Component {
@@ -89,7 +89,7 @@ class App_Main extends React.Component {
 				<div id="audioContainer" className="hide">
 					{
 						this.state.generated != null ? (
-							<button onClick={this.playAudio.bind(this, this.state.generateFromOrigin)}>Play <i className="fas fa-play" aria-hidden="true"></i><span className="scr_rd"></span></button>
+							<button onClick={this.playAudio.bind(this, this.state.generated)}>Play <i className="fas fa-play" aria-hidden="true"></i><span className="scr_rd"></span></button>
 						) : (null)
 					}
 

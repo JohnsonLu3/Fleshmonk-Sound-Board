@@ -136,7 +136,7 @@ class App_Main extends React.Component {
 
 	generateFromOrigin = () => {
 		let query = this.getQuery().split(" ");
-		let audioPath = "../sounds/";
+		let audioPath = window.location.origin + "/sounds/";
 		let extension = ".wav";
 		let audioPaths = [];
 
